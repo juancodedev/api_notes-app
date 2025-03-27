@@ -7,14 +7,12 @@ from models import Note
 from schemas import NoteCreate
 from database import Base
 
-# Configuración de la base de datos de pruebas
 SQLALCHEMY_TEST_DATABASE_URL = "sqlite:///:memory:"
 engine = create_engine(SQLALCHEMY_TEST_DATABASE_URL)
 TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 @pytest.fixture(scope="function")
 def db():
-    # Crear las tablas en la base de datos de pruebas
     Base.metadata.create_all(bind=engine)
     db = TestingSessionLocal()
     try:

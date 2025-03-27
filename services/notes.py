@@ -3,10 +3,10 @@ from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
 from models import Note
 from schemas import NoteCreate
-from datetime import datetime
+from datetime import datetime, UTC
 
 def create_note(db: Session, note_data: NoteCreate, user_id: int):
-    note = Note(**note_data.dict(), user_id=user_id)
+    note = Note(**note_data.model_dump(), user_id=user_id)
     db.add(note)
     db.commit()
     db.refresh(note)
@@ -28,7 +28,7 @@ def update_note(db: Session, note_id: int, user_id: int, note_data: NoteCreate):
 
     note.title = note_data.title
     note.content = note_data.content
-    note.updated_at = datetime.utcnow()
+    note.updated_at = datetime.now(UTC)
 
     try:
         db.commit()
