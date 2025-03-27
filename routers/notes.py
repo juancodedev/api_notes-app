@@ -8,23 +8,41 @@ from services.auth import get_current_user
 
 router = APIRouter()
 
+
 @router.post("/")
 def add_note(note: NoteCreate, db: Session = Depends(get_db), current_user: dict = Depends(get_current_user)):
     user_id = current_user["id"]
     return create_note(db, note, user_id)
 
+
 @router.get("/", response_model=List[NoteResponse])
-def list_notes(db: Session = Depends(get_db)):
-    return get_notes(db)
+def list_notes(
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(get_current_user)
+):
+    user_id = current_user["id"]
+    return get_notes(db, user_id)
 
 @router.get("/{id}")
-def get_note(id: int, db: Session = Depends(get_db)):
-    return get_note_by_id(db, id)
+def get_note(
+    id: int, db: Session = Depends(get_db),
+    current_user: dict = Depends(get_current_user)
+):
+    user_id = current_user["id"]
+    return get_note_by_id(db, id, user_id)
+
 
 @router.put("/{id}")
-def modify_note(id: int, note: NoteCreate, db: Session = Depends(get_db)):
-    return update_note(db, id, note)
+def modify_note(id: int, note: NoteCreate, db: Session = Depends(get_db),
+                current_user: dict = Depends(get_current_user)
+                ):
+    user_id = current_user["id"]
+    return update_note(db, id, user_id, note)
+
 
 @router.delete("/{id}")
-def remove_note(id: int, db: Session = Depends(get_db)):
-    return delete_note(db, id)
+def remove_note(id: int, db: Session = Depends(get_db),
+                current_user: dict = Depends(get_current_user)
+                ):
+    user_id = current_user["id"]
+    return delete_note(db, id, user_id)
