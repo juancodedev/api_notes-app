@@ -41,10 +41,10 @@ def get_note_by_id(db: Session, note_id: int, user_id: int):
     return note
 
 def update_note(db: Session, note_id: int, user_id: int, note_data: NoteCreate):
-    note = db.query(Note).filter(Note.id == note_id, Note.user_id == user_id).first()
-    if note is None:
-        return None
-
+    note = db.query(Note).filter(Note.id == note_id, Note.user_id == user_id).with_for_update().first()
+    if not note:
+        raise HTTPException(status_code=404, detail="Note not found")
+    
     note.title = note_data.title
     note.content = note_data.content
     note.locked = note_data.locked
@@ -54,12 +54,12 @@ def update_note(db: Session, note_id: int, user_id: int, note_data: NoteCreate):
         db.commit()
     except IntegrityError:
         db.rollback()
-        return None
+        raise HTTPException(status_code=500, detail="Error al actualizar la nota")
 
     return note
 
 def delete_note(db: Session, note_id: int, user_id: int):
-    note = db.query(Note).filter(Note.id == note_id, Note.user_id == user_id).first()
+    note = db.query(Note).filter(Note.id == note_id, Note.user_id == user_id).with_for_update().first()
     if note:
         db.delete(note)
         db.commit()

@@ -1,5 +1,5 @@
 import datetime
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from typing import Optional, List
 
 class UserCreate(BaseModel):
@@ -21,6 +21,8 @@ class NoteCreate(BaseModel):
     locked: Optional[bool] = False
     tags: List[str] = []
 
+    model_config = ConfigDict(from_attributes=True)
+
 class NoteResponse(NoteCreate):
     id: int
     title: str
@@ -30,7 +32,7 @@ class NoteResponse(NoteCreate):
 
     class Config:
         orm_mode = True
-        arbitrary_types_allowed = True  # Allow arbitrary types like datetime
+        arbitrary_types_allowed = True
 
 class UserLogin(BaseModel):
     username: str

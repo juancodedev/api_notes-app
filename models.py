@@ -36,7 +36,7 @@ class Note(Base):
     user_id = Column(Integer, ForeignKey("users.id"))
     locked = Column(Boolean, default=False)
     created_at = Column(DateTime, default=datetime.now(UTC))
-    updated_at = Column(DateTime, default=datetime.now(UTC))
+    updated_at = Column(DateTime, default=datetime.now(UTC), onupdate=datetime.now(UTC))
 
     owner = relationship("User")
     tags = relationship("Tag", secondary="note_tags", back_populates="notes")
