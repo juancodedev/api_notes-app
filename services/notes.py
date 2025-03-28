@@ -34,7 +34,7 @@ def get_notes(db: Session, user_id: int):
     return notes
 
 def get_note_by_id(db: Session, note_id: int, user_id: int):
-    note = db.query(Note).filter(Note.id == note_id, Note.user_id == user_id).first()
+    note = db.query(Note).filter(Note.id == note_id, Note.user_id == user_id).with_for_update().first()
     if not note:
         raise HTTPException(status_code=404, detail="Note not found")
     note.tags = db.query(Tag).join(NoteTags).filter(NoteTags.note_id == note.id).all()
