@@ -73,7 +73,7 @@ Este proyecto es una API para gestionar notas y etiquetas, desarrollada con **Fa
 **Estrategia de bloqueo**
 *   **Bloqueo de la base de datos de forma pesimista**: Para evitar que multiples transacciones se ejecucion, lo cual me permite el poder mantener la integridad de datos, donde se bloquea el registro en la base de datos mientras lo estoy trabajando, evitando que otro usaurio pueda acceder a el mismo registro, evitando sobre escrituras o perdida de información.
 
-** Desafios enfrentados**
+**Desafios enfrentados**
 * **FastAPI**: fue una herramienta de la cual tuve que aprender mucho, ya que la conocia, pero nunca la había utilizado en un proyecto real, por lo que tuve que investigar y aprender sobre su funcionamiento, configuración e implementacion.
 * **Problemas de concurrencia**: Nunca habia trabajado con esta dinamica en la integridad de los datos, por lo que investigue y aprendi sobre los diferentes tipos de bloqueo y como implementarlos en este proyecto, si bien no lo logré completar, aprendi mucho de la experiencia.
 
