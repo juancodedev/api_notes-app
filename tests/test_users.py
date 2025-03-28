@@ -72,7 +72,7 @@ def test_authenticate_user(db):
 def test_create_access_token():
     username = "testuser"
     test_data = {"sub": username}
-    expires_delta = timedelta(minutes=30)
+    expires_delta = timedelta(minutes=60)
     
     token = create_access_token(test_data, expires_delta)
     

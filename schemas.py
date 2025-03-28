@@ -1,3 +1,4 @@
+import datetime
 from pydantic import BaseModel
 from typing import Optional, List
 
@@ -22,8 +23,14 @@ class NoteCreate(BaseModel):
 
 class NoteResponse(NoteCreate):
     id: int
-    user_id: int
-    locked: bool
+    title: str
+    content: str
+    createdAt: datetime
+    updatedAt: datetime
+
+    class Config:
+        orm_mode = True
+        arbitrary_types_allowed = True  # Allow arbitrary types like datetime
 
 class UserLogin(BaseModel):
     username: str

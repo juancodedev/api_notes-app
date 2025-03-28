@@ -16,13 +16,13 @@ def get_tags(db: Session):
 def get_tag_by_id(db: Session, tag_id: int):
     tag = db.query(Tag).filter(Tag.id == tag_id).first()
     if not tag:
-        raise HTTPException(status_code=404, detail="Tag not found")
+        raise HTTPException(404, "Tag not found")
     return tag
 
 def update_tag(db: Session, tag_id: int, tag_data: TagCreate):
     tag = db.query(Tag).filter(Tag.id == tag_id).first()
     if not tag:
-        raise HTTPException(status_code=404, detail="Tag not found")
+        raise HTTPException(404, "Tag not found")
 
     tag.name = tag_data.name
     db.commit()
