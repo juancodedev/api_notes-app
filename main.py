@@ -1,6 +1,8 @@
 from fastapi import FastAPI
-from routers import auth, notes
+from routers import auth, notes, tags
 from fastapi.middleware.cors import CORSMiddleware
+from services.notes import initialize_db
+from database import get_db
 
 app = FastAPI()
 
@@ -17,5 +19,11 @@ app.add_middleware(
     allow_headers=["*"],  
 )
 
+@app.on_event("startup")
+async def startup_event():
+    db = next(get_db())
+    initialize_db(db)
+
 app.include_router(auth.router, prefix="/api/auth")
 app.include_router(notes.router, prefix="/api/notes")
+app.include_router(tags.router, prefix="/tags", tags=["tags"])

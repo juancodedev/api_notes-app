@@ -8,7 +8,7 @@ from datetime import timedelta
 
 router = APIRouter()
 
-@router.post("/register", response_model=UserResponse)
+@router.post("/register")
 def register(user: UserCreate, db: Session = Depends(get_db)):
     existing_user = db.query(User).filter(User.username == user.username).first()
     if existing_user:
@@ -22,12 +22,19 @@ def register(user: UserCreate, db: Session = Depends(get_db)):
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
-    return new_user
+    access_token = create_access_token({"sub": new_user.username}, timedelta(minutes=60))
+    return {
+        "id": new_user.id,
+        "username": new_user.username,
+        "name": new_user.name,
+        "access_token": access_token,
+        "token_type": "bearer"
+    }
 
 @router.post("/login")
 def login(user: UserLogin, db: Session = Depends(get_db)):
     db_user = authenticate_user(db, user.username, user.password)
     if not db_user:
         raise HTTPException(status_code=400, detail="Invalid credentials")
-    access_token = create_access_token({"sub": db_user.username}, timedelta(minutes=30))
+    access_token = create_access_token({"sub": db_user.username}, timedelta(minutes=60))
     return {"access_token": access_token, "token_type": "bearer"}
