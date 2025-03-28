@@ -62,7 +62,7 @@ Este proyecto es una API para gestionar notas y etiquetas, desarrollada con **Fa
     La documentación interactiva estará en: http://localhost:8000/docs
 
 
-**Razones para elegir las tecnologiasframeworks**
+**Razones para elegir las tecnologias/frameworks**
 *   **FastAPI**: Es un framework de Python que me permite crear APIs de alta velocidad y escalabilidad, ademas cuenta con soporte nativo para la documentacion interactiva con Swagger y OpenAPI.
 *   **Alembic**: Para facilitar la gestion de las migraciones de los esquemas de datos de la base de datos.
 *   **PostgreSQL**: Base de datos relacional confiable y con características avanzadas y con soporte para JSON.
