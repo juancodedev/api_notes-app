@@ -7,7 +7,7 @@ certifi==2025.1.31
 click==8.1.8
 db==0.1.1
 dnspython==2.7.0
-ecdsa==0.19.1
+ecdsa==0.19.2
 email_validator==2.2.0
 fastapi==0.115.12
 fastapi-cli==0.0.7
